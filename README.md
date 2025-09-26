@@ -22,168 +22,117 @@ What to observe - Logs, Metrics, traces
   Logs - 	Logging 
 Traces – Tracing 
 
-Use observability to: 
+##### Use observability to: 
 
 1. Diagnosis issues 
-
 2. Understand behaviour 
-
 3. Ensure availability 
 
-What can be observed ? 
+##### What can be observed ? 
 
-    Logs: Detailed records of events and transactions within the system. 
+Logs: Detailed records of events and transactions within the system. 
+Metrics: Quantitative data points like CPU load, memory consumption, and request counts. 
+Traces: Data that shows the flow of requests through various services and components. 
 
-    Metrics: Quantitative data points like CPU load, memory consumption, and request counts. 
-
-    Traces: Data that shows the flow of requests through various services and components. 
-
- 
-
-Monitoring ( when and what ): 
+### Monitoring ( when and what ): 
 
 Monitoring is subset of observability. 
-
 Use monitoring to: 
-
 1. Detects problem early 
-
 2. Understand behaviour 
-
 3. Improve systems 
 
-What can be monitored? 
-
-    Infrastructure: CPU usage, memory usage, disk I/O, network traffic. 
-
-    Applications: Response times, error rates, throughput. 
-
-    Databases: Query performance, connection pool usage, transaction rates. 
-
-    Network: Latency, packet loss, bandwidth usage. 
-
-    Security: Unauthorized access attempts, vulnerability scans, firewall logs. 
+#### What can be monitored? 
+Infrastructure: CPU usage, memory usage, disk I/O, network traffic. 
+Applications: Response times, error rates, throughput. 
+Databases: Query performance, connection pool usage, transaction rates. 
+Network: Latency, packet loss, bandwidth usage. 
+Security: Unauthorized access attempts, vulnerability scans, firewall logs. 
 
  
 
-Available tools: 
-
-    Monitoring Tools: Prometheus, Grafana, Nagios, Zabbix, PRTG. 
-
-    Observability Tools: 
-
+### Available tools: 
+Monitoring Tools: Prometheus, Grafana, Nagios, Zabbix, PRTG. 
+Observability Tools: 
 ELK Stack (Elasticsearch, Logstash, Kibana), 
-
 EFK Stack (Elasticsearch, FluentBit, Kibana) Splunk,  
-
 Jaeger,  
-
 Zipkin,  
-
 New Relic,  
-
 Dynatrace,  
-
 Datadog. 
 
  
 
-Step by step flow: 
+## Step by step flow: 
 
 1. Instrumentation 
-
 - OpenTelemetry SDK to Auto-instrument HTTP requests.	 
 
 2. Collection 
-
 - Gather telemetry from all services. 
-
 - OpenTelemetry collector or Fluentbit. 
 
 3. Storage 
-
 - Storage telemetry in the right backend. 
-
 Metrics --> Prometheus/Thanos 
-
 Logs --> Elasticsearch/Loki 
-
 Traces --> Jaeger/Tempo 	 
 
 4. Visualization 
-
 - Grafana	( Metrics ) 
-
 - kibana	( Logs )	 
 
 5. Alerting 
-
 - Prometheus Alertmanager/ Grafana alerts.	 
-
- 
 
 So the flow looks like, 
 
 App (OTel SDK) → OTel Collector → (Prometheus + Jaeger + Elasticsearch) → Grafana/Kibana → Alerts 
 
-Collection and instrumentation: 
+### Collection and instrumentation: 
 
-Opentelemetry: 
+#### Opentelemetry: 
 
-    Opensource observability framework for generating, collecting and exporting telemetry data (Metric, traces and logs ) to help monitor applications. Its not storage. 
+Opensource observability framework for generating, collecting and exporting telemetry data (Metric, traces and logs ) to help monitor applications. Its not storage. 
+Opentelemetry supports several languages. Think of it as a universal language + delivery truck for observability. 
+It’s observability toolkit. 
 
-    Opentelemetry supports several languages. Think of it as a universal language + delivery truck for observability. 
+The 3 pillers of OTel. 
 
-    It’s observability toolkit. 
-
-    The 3 pillers of OTel. 
-
-    Metrics 
-
-    Logs 
-
-    Traces 
+Metrics 
+Logs 
+Traces 
 
 Components: 
 
 Instrumentation (SDK and Auto-instrumentation ) : Your app is instrumented with OTel SDK. 
-
 Context propogation: Each request -> Generates metrics, logs and traces. 
-
 OpenTelemetry collector: Telemetry -> Sent to Otel collector. 
-
 Collector process it and exports to --> prometheus for metrics , Jager for traces, Elastic search for logos 
 
- 
+#### Fluentbit: 
 
-Fluentbit: 
-
-    A light weight log processor and forwarder. 
-
-    Same as OTel Collector but it sends logs only. Not metrices and traces. 
-
-    This runs as a Daemonset. 
+A light weight log processor and forwarder. 
+Same as OTel Collector but it sends logs only. Not metrices and traces. 
+This runs as a Daemonset. 
 
  
 
-OpenTelemetry vs. Fluentbit. 
+#### OpenTelemetry vs. Fluentbit. 
 
 In most cases tems uses them together. 
 
-    Fluent Bit → Collect logs from containers/nodes. 
-
-    OTel Collector → Collect metrics/traces + enrich logs + export everything to backends. 
+Fluent Bit → Collect logs from containers/nodes. 
+OTel Collector → Collect metrics/traces + enrich logs + export everything to backends. 
 
  
 
 Feature 
-	
 
 OpenTelemetry Collector 
-	
 
 Fluent Bit 
-
 Telemetry types 
 	
 
