@@ -282,3 +282,6 @@ Grafana / Kibana
   ↓
 Alertmanager / Grafana Alerts
 ```
+
+<img width="661" height="557" alt="observability drawio" src="https://github.com/user-attachments/assets/6ad0a79b-62dc-4fb5-b148-4836bd36f9d0" />
+
