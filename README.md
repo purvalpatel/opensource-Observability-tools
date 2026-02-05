@@ -1,26 +1,27 @@
 <img width="1280" height="1664" alt="image" src="https://github.com/user-attachments/assets/9f7b4428-b4af-4d4a-aaef-9fe8c9ba32de" />
 
-What Can Be Monitored?
-----------------------
-- Infrastructure: CPU usage, memory usage, disk I/O, network traffic.
-- Applications: Response times, error rates, throughput.
-- Databases: Query performance, connection pool usage, transaction rates.
-- Network: Latency, packet loss, bandwidth usage.
-- Security: Unauthorized access attempts, vulnerability scans, firewall logs.
+
+What can be monitored? 
+--------
+
+`Infrastructure`: CPU usage, memory usage, disk I/O, network traffic.  <br>
+`Applications`: Response times, error rates, throughput.  <br>
+`Databases`: Query performance, connection pool usage, transaction rates.  <br>
+`Network`: Latency, packet loss, bandwidth usage.  <br>
+`Security`: Unauthorized access attempts, vulnerability scans, firewall logs.  <br>
 
 What Can Be Observed?
 --------------------
-- Logs: Detailed records of events and transactions within the system.
-- Metrics: Quantitative data points like CPU load, memory consumption, and request counts.
-- Traces: Data that shows the flow of requests through various services and components.
-
-
+- `Logs`: Detailed records of events and transactions within the system.
+- `Metrics`: Quantitative data points like CPU load, memory consumption, and request counts.
+- `Traces`: Data that shows the flow of requests through various services and components.
 
 ### Observability ( why and how ): 
-What to observe - Logs, Metrics, traces 
-  Metrics – Monitoring 
-  Logs - 	Logging 
-Traces – Tracing 
+What to observe - Logs, Metrics, traces <br>
+
+- Metrics – Monitoring 
+- Logs - 	Logging 
+- Traces – Tracing 
 
 ##### Use observability to: 
 
@@ -30,164 +31,98 @@ Traces – Tracing
 
 ##### What can be observed ? 
 
-Logs: Detailed records of events and transactions within the system. 
-Metrics: Quantitative data points like CPU load, memory consumption, and request counts. 
-Traces: Data that shows the flow of requests through various services and components. 
+`Logs` : Detailed records of events and transactions within the system.  <br>
+`Metrics` : Quantitative data points like CPU load, memory consumption, and request counts.  <br>
+`Traces` : Data that shows the flow of requests through various services and components.  <br>
 
 ### Monitoring ( when and what ): 
 
-Monitoring is subset of observability. 
+Monitoring is subset of observability.  <br>
+
 Use monitoring to: 
 1. Detects problem early 
 2. Understand behaviour 
 3. Improve systems 
 
-#### What can be monitored? 
-Infrastructure: CPU usage, memory usage, disk I/O, network traffic. 
-Applications: Response times, error rates, throughput. 
-Databases: Query performance, connection pool usage, transaction rates. 
-Network: Latency, packet loss, bandwidth usage. 
-Security: Unauthorized access attempts, vulnerability scans, firewall logs. 
 
- 
+Available tools: 
+----
 
-### Available tools: 
-Monitoring Tools: Prometheus, Grafana, Nagios, Zabbix, PRTG. 
-Observability Tools: 
-ELK Stack (Elasticsearch, Logstash, Kibana), 
-EFK Stack (Elasticsearch, FluentBit, Kibana) Splunk,  
-Jaeger,  
-Zipkin,  
-New Relic,  
-Dynatrace,  
-Datadog. 
+- Monitoring Tools: Prometheus, Grafana, Nagios, Zabbix, PRTG.  <br>
+- Observability Tools: `ELK Stack` (Elasticsearch, Logstash, Kibana), `EFK Stack` (Elasticsearch, FluentBit, Kibana) `Splunk`, `Jaeger`,  `Zipkin`,  `New Relic`,  `Dynatrace`,  `Datadog`
 
- 
-
-## Step by step flow: 
+Step by step flow: 
+---
 
 1. Instrumentation 
-- OpenTelemetry SDK to Auto-instrument HTTP requests.	 
+- `OpenTelemetry` SDK to Auto-instrument HTTP requests.	 
 
 2. Collection 
 - Gather telemetry from all services. 
-- OpenTelemetry collector or Fluentbit. 
+- `OpenTelemetry collector` or `Fluentbit`. 
 
 3. Storage 
-- Storage telemetry in the right backend. 
+- Storage telemetry in the right backend.
+```
 Metrics --> Prometheus/Thanos 
 Logs --> Elasticsearch/Loki 
 Traces --> Jaeger/Tempo 	 
-
-4. Visualization 
-- Grafana	( Metrics ) 
-- kibana	( Logs )	 
+```
+4. Visualization
+- `Grafana`	( Metrics ) 
+- `kibana`	( Logs )	 
 
 5. Alerting 
-- Prometheus Alertmanager/ Grafana alerts.	 
+- `Prometheus Alertmanager`/ Grafana alerts.	 
 
 So the flow looks like, 
-
+```
 App (OTel SDK) → OTel Collector → (Prometheus + Jaeger + Elasticsearch) → Grafana/Kibana → Alerts 
+```
 
-### Collection and instrumentation: 
+## Collection and instrumentation: 
 
-#### Opentelemetry: 
+### Opentelemetry: 
 
-Opensource observability framework for generating, collecting and exporting telemetry data (Metric, traces and logs ) to help monitor applications. Its not storage. 
-Opentelemetry supports several languages. Think of it as a universal language + delivery truck for observability. 
-It’s observability toolkit. 
+- Opensource observability framework for generating, collecting and exporting telemetry data (Metric, traces and logs ) to help monitor applications. Its not storage. 
+- Opentelemetry supports several languages. Think of it as a universal language + delivery truck for observability. 
+- It’s observability toolkit. 
 
-The 3 pillers of OTel. 
+**The 3 pillers of OTel.** <br>
+- Metrics 
+- Logs 
+- Traces 
 
-Metrics 
-Logs 
-Traces 
+**Components:**
 
-Components: 
+- Instrumentation (SDK and Auto-instrumentation ) : Your app is instrumented with OTel SDK. 
+- Context propogation: Each request -> Generates metrics, logs and traces. 
+- OpenTelemetry collector: Telemetry -> Sent to Otel collector. 
+- Collector process it and exports to --> prometheus for metrics , Jager for traces, Elastic search for logos 
 
-Instrumentation (SDK and Auto-instrumentation ) : Your app is instrumented with OTel SDK. 
-Context propogation: Each request -> Generates metrics, logs and traces. 
-OpenTelemetry collector: Telemetry -> Sent to Otel collector. 
-Collector process it and exports to --> prometheus for metrics , Jager for traces, Elastic search for logos 
+### Fluentbit: 
 
-#### Fluentbit: 
+- A light weight log processor and forwarder. 
+- Same as OTel Collector but it sends logs only. Not metrices and traces. 
+- This runs as a Daemonset. 
 
-A light weight log processor and forwarder. 
-Same as OTel Collector but it sends logs only. Not metrices and traces. 
-This runs as a Daemonset. 
 
- 
+### OpenTelemetry vs. Fluentbit. 
 
-#### OpenTelemetry vs. Fluentbit. 
+- In most cases tems uses them together. 
 
-In most cases tems uses them together. 
+- Fluent Bit → Collect logs from containers/nodes. 
+- OTel Collector → Collect metrics/traces + enrich logs + export everything to backends. 
 
-Fluent Bit → Collect logs from containers/nodes. 
-OTel Collector → Collect metrics/traces + enrich logs + export everything to backends. 
-
- 
-
-Feature 
-
-OpenTelemetry Collector 
-
-Fluent Bit 
-Telemetry types 
-	
-
-Metrics, Logs, Traces (all 3) 
-	
-
-Logs only 
-
-Protocol 
-	
-
-OTLP (native) + many others 
-	
-
-Tail files, journald, syslog 
-
-Use case 
-	
-
-Unified observability pipeline 
-	
-
-Log collection & shipping 
-
-Kubernetes 
-	
-
-Runs as DaemonSet/sidecar/agent 
-	
-
-Typically runs as DaemonSet 
-
-Processing 
-	
-
-Enrichment, batching, sampling 
-	
-
-Parsing, filtering, buffering 
-
-Performance 
-	
-
-Moderate (multi-signal) 
-	
-
-Very lightweight (logs only) 
-
-Best for 
-	
-
-Central pipeline (metrics/logs/traces) 
-	
-
-High-performance log shipping 
+| Feature           | OpenTelemetry Collector                         | Fluent Bit                          |
+|-------------------|--------------------------------------------------|-------------------------------------|
+| Telemetry types   | Metrics, Logs, Traces (all three)               | Logs only                            |
+| Protocol          | OTLP (native) + many others                     | Tail files, journald, syslog         |
+| Use case          | Unified observability pipeline                  | Log collection & shipping            |
+| Kubernetes        | Runs as DaemonSet / Sidecar / Agent             | Typically runs as DaemonSet          |
+| Processing        | Enrichment, batching, sampling                  | Parsing, filtering, buffering        |
+| Performance       | Moderate (multi-signal processing)              | Very lightweight (logs only)         |
+| Best for          | Central pipeline for metrics, logs & traces     | High-performance log shipping        |
 
  
 
@@ -334,34 +269,26 @@ Conculsion : VictoriaMetrics is simpler and cheaper for most orgranizations.
  
 
 Storage – traces 
+-------------
 
- 
+### Jaeger: 
 
-Jaeger: 
+- Distributed tracing system used for monitoring and troubleshooting microservice-based architectures.
+- Helps developers to understand how requests are flows through complex systems. 
 
-Distributed tracing system used for monitoring and troubleshooting microservice-based architectures. 
+#### Why use jaeger ? 
 
-Helps developers to understand how requests are flows through complex systems. 
+- In morden applications, as specically microservices architecture, a single request can touch multiple services, when something goes wrong, its challenging to pinpoint the source.
+- https://github.com/iam-veeramalla/observability-zero-to-hero/tree/main/day-6 
 
-Why use jaeger ? 
+### Tempo: 
+- Store and query traces.
+- Stores traces in object storage.
+- Light weight.
+- Designed for cloud native high volume workloads. 
 
-In morden applications, as specically microservices architecture, a single request can touch multiple services, when something goes wrong, its challenging to pinpoint the source. 
 
-https://github.com/iam-veeramalla/observability-zero-to-hero/tree/main/day-6 
-
-Tempo: 
-
-    Store and query traces. 
-
-    Stores traces in object storage. 
-
-    Light weight. 
-
-    Designed for cloud native high volume workloads. 
-
- 
-
-Jaeger vs. Tempo 
+### Jaeger vs. Tempo 
 
 Feature 
 	
