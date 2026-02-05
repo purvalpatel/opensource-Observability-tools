@@ -93,6 +93,7 @@ Grafana / Kibana
 Alerts
 ```
 ---------------------------------------------
+--------------------------------------------
 
 ### 1️⃣ instrumentation & Collection: 
 - Instrumentation → create telemetry inside the app. Adding code to generate telemetry
