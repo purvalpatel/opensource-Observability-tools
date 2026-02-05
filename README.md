@@ -157,14 +157,16 @@ Container Logs → Fluent Bit → OTel Collector → Loki / Elasticsearch
 - If your focus is metrics + traces (and logs) → OTel Collector.
 - If you want a full observability pipeline → combine both. 
 
-### 2. Storage - logs 
+### 2. Storage 
+
+#### Storage - logs
 
 **Loki ( Log storage ):** 
 Now fluentbit and opentelemetry collects logs from the application and forwards them. <br>
 - Loki receives logs, store them efficiently and allows visualization. 
 
 
-### Storage – metrics 
+#### Storage – metrics 
 ```
 Prometheus ->  thanos, Cortex, VictoriaMetrics 
 ```
@@ -210,7 +212,7 @@ App → Prometheus (scrapes metrics) → remote_write → VictoriaMetrics → Gr
 Conculsion : VictoriaMetrics is simpler and cheaper for most orgranizations. 
 
  
-### Storage – traces 
+#### Storage – traces 
 
 #### Jaeger: 
 
