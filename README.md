@@ -54,32 +54,30 @@ Available tools:
 Step by step flow: 
 ---
 
-1. Instrumentation:
-
+1️⃣ Instrumentation:
 Applications are instrumented to generate telemetry:
-
 - Metrics
 - Logs
 - Traces
 
 `OpenTelemetry` SDK to Auto-instrument HTTP requests.	 
 
-2. Collection 
+2️⃣  Collection 
 - Gather telemetry from all services. 
 - `OpenTelemetry collector` or `Fluentbit`. 
 
-3. Storage 
+3️⃣ Storage 
 - Storage telemetry in the right backend.
 
 - Metrics --> `Prometheus`/`Thanos`
 - Logs --> `Elasticsearch`/`Loki`
 - Traces --> `Jaeger`/`Tempo`
 
-4. Visualization
+4️⃣  Visualization
 - `Grafana`	( Metrics ) 
 - `kibana`	( Logs )	 
 
-5. Alerting 
+5️⃣ Alerting 
 - `Prometheus Alertmanager`/ Grafana alerts.	 
 
 So the flow looks like, 
@@ -95,7 +93,7 @@ Grafana / Kibana
 Alerts
 ```
 
-### 1️⃣. instrumentation & Collection: 
+### 1️⃣ instrumentation & Collection: 
 - Instrumentation → create telemetry inside the app. Adding code to generate telemetry
 - Collection → receive, process, and send telemetry out
 
@@ -157,7 +155,7 @@ Container Logs → Fluent Bit → OTel Collector → Loki / Elasticsearch
 - If your focus is metrics + traces (and logs) → OTel Collector.
 - If you want a full observability pipeline → combine both. 
 
-### 3️⃣ Storage 
+3️⃣ Storage 
 
 #### Storage - logs
 
