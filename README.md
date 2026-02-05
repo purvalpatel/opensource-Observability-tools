@@ -95,7 +95,7 @@ Grafana / Kibana
 Alerts
 ```
 
-### 1. instrumentation & Collection: 
+### 1️⃣. instrumentation & Collection: 
 - Instrumentation → create telemetry inside the app. Adding code to generate telemetry
 - Collection → receive, process, and send telemetry out
 
@@ -105,7 +105,7 @@ What instrumentation produces from your app:
 - Metrics
 - Logs
 
-For that `OpenTelemetry` is used. <br>
+🔹 For that `OpenTelemetry` is used. <br>
 Observability: <br>
 - its a toolkit.
 
@@ -114,14 +114,14 @@ Observability: <br>
 - Logs 
 - Traces 
 
-**Collection:** <br>
+2️⃣ **Collection:** <br>
 - receiving telemetry from apps & infrastructure
 ```
 App → sends telemetry → OpenTelemetry Collector
 ```
 This is done by `OpenTelemetry Collector`.
 
-**Fluentbit:** <br>
+🔹 **Fluentbit:** <br>
 - A light weight log processor and forwarder. 
 - Same as OTel Collector but it sends logs only. Not metrices and traces. 
 - This runs as a Daemonset. 
@@ -157,7 +157,7 @@ Container Logs → Fluent Bit → OTel Collector → Loki / Elasticsearch
 - If your focus is metrics + traces (and logs) → OTel Collector.
 - If you want a full observability pipeline → combine both. 
 
-### 2. Storage 
+### 3️⃣ Storage 
 
 #### Storage - logs
 
@@ -166,7 +166,8 @@ Now fluentbit and opentelemetry collects logs from the application and forwards 
 - Loki receives logs, store them efficiently and allows visualization. 
 
 
-#### Storage – metrics 
+📊 Storage – metrics 
+**Prometheus**
 ```
 Prometheus ->  thanos, Cortex, VictoriaMetrics 
 ```
@@ -211,24 +212,35 @@ App → Prometheus (scrapes metrics) → remote_write → VictoriaMetrics → Gr
 ```
 Conculsion : VictoriaMetrics is simpler and cheaper for most orgranizations. 
 
+📜 Logs storage
+- Elasticsearch
+   - Full-text search <br>
+   - Heavy but powerful <br>
+- Loki
+   - Label-based <br>
+   - Cheap and scalable <br>
+   - Works natively with Grafana <br>
+Flow:
+```
+Fluent Bit → OTel Collector (optional) → Loki / Elasticsearch
+```
  
-#### Storage – traces 
+🧭 Storage – traces 
 
-#### Jaeger: 
+- Jaeger: 
+   - Distributed tracing system used for monitoring and troubleshooting microservice-based architectures. <br>
+   - Helps developers to understand how requests are flows through complex systems.  <br>
 
-- Distributed tracing system used for monitoring and troubleshooting microservice-based architectures.
-- Helps developers to understand how requests are flows through complex systems. 
-
-#### Why use jaeger ? 
+Why use jaeger ?  <br>
 
 - In morden applications, as specically microservices architecture, a single request can touch multiple services, when something goes wrong, its challenging to pinpoint the source.
 - https://github.com/iam-veeramalla/observability-zero-to-hero/tree/main/day-6 
 
-#### Tempo: 
-- Store and query traces.
-- Stores traces in object storage.
-- Light weight.
-- Designed for cloud native high volume workloads. 
+Tempo: <br>
+   - Store and query traces. <br>
+   - Stores traces in object storage. <br>
+   - Light weight. <br>
+   - Designed for cloud native high volume workloads.  <br>
 
 ### Jaeger vs. Tempo
 
@@ -244,58 +256,29 @@ Conculsion : VictoriaMetrics is simpler and cheaper for most orgranizations.
 | **Ease of setup** | Can run standalone with built-in UI | Typically requires Grafana + OTel Collector |
 
 
-## Other Terms explanation: 
+4️⃣ Visualization (Understand data)
+- Humans need dashboards and UIs to make sense of telemetry.
+### Tools used 
+📈 Grafana <br> 
+📄 Kibana <br>
 
-### Instrumentation: 
-- It’s a process of adding monitoring capabilities to your applications, systems or services.
-- This includes wring tools or using tools to collect metrics, logs and traces that provides insights into how the system is performing. 
+5️⃣ Alerting (Act on issues)
+- 🚨 Prometheus Alertmanager
+- 🚦 Grafana Alerts
 
-### How it works : 
-
-For examlple, in your node js app you can use library called prom-client to expose the custom metrics. 
-
-### Instrumentation In prometheus: 
-
-- Exporters – Node Exporters, Mysql Exporter, Postgres Exporter. 
-
-- Custom metrics – You can write custom metrics to collect the custom data which you require. 
-
- 
-
-### Logging: 
-
-Loggin is crucial in any distributed systems, especially in kubernetes, to monitor applications behaviour, detect issues. 
-
-### Importance: 
-- Debugging
-- Auditing
-- Performance
-- Security 
-
-### Tools available for logging in kubernetes: 
-- EFK Stack (ElasticSearch, FluentBit, Kibana), FlentD, Logstash
-- Promtail + Loki + Grafana 
-
-### EFK Stack: 
-
-Popular logging stack used for collect, store and analyze logs in kubernetes. 
-
-- `FlentBit` – A lightweight log forwarder that collects logs from different sources and sends them to Elasticsearch. 
-- `Elasticsearch` – Stores and index logs data for easy retrival. 
-- `Kibana` – Visualization tool that allowed users to explore and analyze the stored logs. 
-
-Multi-tenancy <br>
-- Multi-tenancy means single systems servs multiple independent users, which keeping their data logically isolated. 
-- Each tenant feels like they have their own instance. But in reality each tenants share the same infrastructure. 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
+## 🔁 End-to-End Flow (Production)
+```
+Application
+  ↓ (OTel SDK)
+Instrumentation
+  ↓
+OTel Collector  ← Fluent Bit (logs)
+  ↓
+Prometheus / Thanos (metrics)
+Loki / Elasticsearch (logs)
+Jaeger / Tempo (traces)
+  ↓
+Grafana / Kibana
+  ↓
+Alertmanager / Grafana Alerts
+```
