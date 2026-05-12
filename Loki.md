@@ -204,6 +204,10 @@ sum by (container) (count_over_time({job="docker"}[1m]))
 ```logql
 sum by (container) (count_over_time({job="docker"} |= "error" [1m]))
 ```
+OR take container names as variable
+```
+sum by (container) (count_over_time({job="docker", container=~"$container"} |= "error" [1m]))
+```
 - Visualization: `Time series`
 - Title: `Error Rate by Container`
 
