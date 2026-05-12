@@ -197,6 +197,10 @@ Query:
 ```logql
 sum by (container) (count_over_time({job="docker"}[1m]))
 ```
+OR Container as a variable
+```
+sum by (container) (count_over_time({job="docker", container=~"$container"}[1m]))
+```
 - Title → Log Volume by Container
 - Apply
 
