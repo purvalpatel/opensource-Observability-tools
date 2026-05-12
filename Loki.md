@@ -217,6 +217,8 @@ sum by (container) (count_over_time({job="docker", container=~"$container"} |= "
 
 ### Panel 4 — Logs by Specific Container (Variable-driven)
 - First set up a variable, then use it in panels
+- Set visualizations to logs:
+    - Enable Time, Wrap lines
 ```
 {job="docker", container=~"$container"}
 ```
