@@ -168,9 +168,9 @@ docker-compose up -d
 docker-compose logs promtail
 ```
 
-## Create GRafana Dashboard:
+## Create Grafana Dashboard:
 ### Open in browser:
-- http://localhost:3002
+- http://localhost:3002 <br>
 username - `admin` <br>
 password - `admin` <br>
 
